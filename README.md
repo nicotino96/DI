@@ -37,11 +37,11 @@
 
 ## Estado del Proyecto 🚧
 
-Actualmente, **SmartHomeApp** está en la fase de desarrollo beta. Se han implementado la mayoría de las funciones clave, y estamos trabajando en mejorar la experiencia del usuario, así como en integrar nuevos dispositivos de domótica.
+Actualmente, **SmartHomeApp** está en la fase de desarrollo beta. Se han implementado la mayoría de las funciones clave, y se está trabajando en mejorar la experiencia del usuario, así como en integrar nuevos dispositivos.
 
 ### Estado de las versiones:
 - Versión Beta 1.0.0: Disponible para pruebas internas.
-- Próximas versiones: Se planea un lanzamiento público para el Q2 de 2024.
+- Próximas versiones: Se planea un lanzamiento público para comienzos de 2025.
 
 ---
 
@@ -49,7 +49,7 @@ Actualmente, **SmartHomeApp** está en la fase de desarrollo beta. Se han implem
 
 ### Video de demostración:
 
-Puedes ver el video de presentación de **SmartHomeApp** aquí: [Video de demostración](https://youtu.be/ejemplo-de-video)
+Puedes ver el video de presentación de **SmartHomeApp** aquí: [Video de demostración](https://vi.deo/ejemplo-de-video)
 
 ### Capturas de pantalla:
 - **Panel de control de dispositivos:**  
@@ -72,10 +72,12 @@ Puedes acceder al repositorio del proyecto a través del siguiente enlace:
 
 ## Autores
 * **nicotino** *Trabajo Inicial* - [nicotino](https://github.com/antonhitoflores)
-* **Antoñito Flores** - *Trabajo auxiliar* - [antonhitoflores](https://github.com/antonhitoflores)
-* **Gastonto** - *Documentación* - [gastonto](#gastonto)
+* **Antoñito Flores** - *Documentación* - [antonhitoflores](https://github.com/antonhitoflores)
+
+## Contribuyentes
+*
 
 ## Licencia 📄
 
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
+Este proyecto está bajo la Licencia (Softwise) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
 
