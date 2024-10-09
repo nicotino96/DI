@@ -1,10 +1,8 @@
+from pythonProject1.character import Character
 
-class Hero():
+class Hero(Character):
     def __init__(self):
-        self.name=input("Introduzca nombre del héroe")
-        self.ap=25
-        self.dp=30
-        self.hp=40
+        super().__init__(name, 20, 10, 100)
         self.max_hp=100
     def attack (self, monster):
         print("Héroe ataca a "+monster.name)
@@ -23,10 +21,5 @@ class Hero():
     def reset_defense(self):
         self.dp-=5
         print(("La de defense de "+self.name+" vuelve a la normalidad"))
-    def is_alive(self):
-        if(self.hp>0):
-            return True
-        else:
-            return False
 
 
