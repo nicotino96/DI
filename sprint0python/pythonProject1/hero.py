@@ -2,7 +2,7 @@ from pythonProject1.character import Character
 
 class Hero(Character):
     def __init__(self):
-        super().__init__(name, 20, 10, 100)
+        super().__init__(input(print("Introduzca nombre del héroe: ")), 20, 10, 100)
         self.max_hp=100
     def attack (self, monster):
         print("Héroe ataca a "+monster.name)
