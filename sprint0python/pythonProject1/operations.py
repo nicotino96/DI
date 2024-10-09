@@ -1,10 +1,10 @@
-def suma(x, y):
+def sum(x, y):
     return x + y
-def resta(x , y):
+def rest(x, y):
     return x - y
-def multiplicacion(x, y):
+def multiply(x, y):
     return x * y
-def division (x , y):
+def divide (x, y):
     try:
         return x / y
     except ZeroDivisionError as e:

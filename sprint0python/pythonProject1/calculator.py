@@ -1,6 +1,6 @@
 from traceback import print_tb
 
-from pythonProject1.operaciones import suma, resta, multiplicacion, division
+from pythonProject1.operations import sum, rest, multiply, divide
 
 
 otro = True
@@ -11,23 +11,23 @@ while otro:
     resp = input("Operación a realizar: (sumar/restar/multiplicar/dividir) ")
 
     if resp == "sumar":
-        resultado = suma(n1, n2)
-        print(resultado)
+        outcome = sum(n1, n2)
+        print(outcome)
     elif resp == "restar":
-        resultado = resta(n1, n2)
-        print(resultado)
+        outcome = rest(n1, n2)
+        print(outcome)
     elif resp == "multiplicar":
-        resultado = multiplicacion(n1, n2)
-        print(resultado)
+        outcome = multiply(n1, n2)
+        print(outcome)
     elif resp == "dividir":
-        resultado = division(n1, n2)
-        print(resultado)
+        outcome = divide(n1, n2)
+        print(outcome)
     else:
         print("Respuesta no válida")
 
-    seguir = input("¿Desea realizar otra operación? (s/n) ")
+    goOn = input("¿Desea realizar otra operación? (s/n) ")
 
-    if seguir != "n" and seguir != "s":
+    if goOn != "n" and goOn != "s":
         print("Respuesta no válida")
-    if seguir == "n":
+    if goOn == "n":
         otro = False
