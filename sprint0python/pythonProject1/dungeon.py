@@ -1,4 +1,4 @@
-from multiprocessing.managers import Value
+
 
 from pythonProject1.hero import Hero
 from pythonProject1.monster import Monster
@@ -22,9 +22,11 @@ class Dungeon:
         for i in range(0,len(self.monsters),1):# Recorre la lista de monstruos
             monster=self.monsters[i]# Selecciona el monstruo actual
             print("Te has encontrado con un ", monster.name, "(" ,monster.hp," hps)")
-
+            dp_aum=False
             while monster.hp>0 and self.hero.hp>0:# Mientras ambos, el héroe y el monstruo, tengan salud positiva, sigue el combate
-                self.face_enemy(monster)# El héroe toma una acción contra el monstruo
+                if dp_aum:
+                    self.hero.reset_defense()#reseteo de la defensa en caso de haber sido aumentada en el turno anterior
+                dp_aum=self.face_enemy(monster)# El héroe toma una acción contra el monstruo
                 monster.attack(self.hero)# En este juego el monstruo siempre ataca haga lo que haga el héroe
             if self.hero.hp<=0:# Si muere el héroe termina el juego
                 print("Héroe ha sido derrotado.")
@@ -41,13 +43,13 @@ class Dungeon:
                 opcion=int(input())
                 if opcion == 1:
                     self.hero.attack(monster)
-                    break
+                    return False
                 elif opcion == 2:
                     self.hero.defend()
-                    break
+                    return True #el método True cuando se escoge defensa para que se controle se he aumentado y así poder resetearla en el siguiente turno
                 elif opcion == 3:
                     self.hero.heal()
-                    break
+                    return False
                 else:
                     print("Número del 1 al 3")#Repite los mensajes en caso de que el valor numérico no esté dentro del rango
             except ValueError:
