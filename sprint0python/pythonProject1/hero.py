@@ -1,13 +1,16 @@
 from pythonProject1.character import Character
 
 class Hero(Character):
-    def __init__(self):
-        super().__init__(input(print("Introduzca nombre del héroe: ")), 20, 10, 100)
+    def __init__(self, nombre):
+        super().__init__(nombre, 20, 10, 100)
         self.max_hp=100
     def attack (self, monster):
-        print("Héroe ataca a "+monster.name)
-        if self.ad>monster.dp:
-            print("El enemigo "+monster.name+" ha recibido"+(self.ad-monster.dp)+" puntos de daño")
+        print("Héroe ataca a ",monster.name)
+        damage=self.ad-monster.dp
+        if damage>0:
+            print("El enemigo ",monster.name," ha recibido",damage," puntos de daño")
+            monster.hp-=damage
+            print("Vida de goblin: ", monster.hp)
         else:
             print("El enemigo ha bloquedo el ataque")
     def heal (self):
