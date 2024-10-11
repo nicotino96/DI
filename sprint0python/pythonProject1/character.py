@@ -1,9 +1,9 @@
 class Character():
-    def __init__(self, name, ap, dp, hp):
+    def __init__(self, name,ad, dp, hp):
         self.name=name
-        self.ad=25
-        self.dp=30
-        self.hp=40
+        self.ad=ad
+        self.dp=dp
+        self.hp=hp
 
     def is_alive(self):
         return self.hp > 0
