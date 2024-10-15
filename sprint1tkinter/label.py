@@ -21,3 +21,4 @@ boton = tk.Button(ventana, text="Cambiar texto", command=cambiar_texto)
 boton.pack(pady=5)
 
 ventana.mainloop()
+
