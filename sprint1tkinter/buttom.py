@@ -2,6 +2,7 @@ import tkinter as tk
 
 def mostrar_mensaje():
     etiqueta.config(text="Botón presionado")
+
 def cerrar_ventana():
     ventana.destroy()
 ventana = tk.Tk()
