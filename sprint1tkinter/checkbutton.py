@@ -12,14 +12,13 @@ def actualizar_aficiones():
 
     label_resultado.config(text="Aficiones : " + ", ".join(seleccionadas))
 
-
 root = tk.Tk()
 root.title("Aficiones")
 root.geometry("300x200")
 
-leer_var = tk.BooleanVar()
-deporte_var = tk.BooleanVar()
-musica_var = tk.BooleanVar()
+leer_var = tk.IntVar()
+deporte_var = tk.IntVar()
+musica_var = tk.IntVar()
 
 
 check_leer = tk.Checkbutton(root, text="Leer", variable=leer_var, command=actualizar_aficiones)
