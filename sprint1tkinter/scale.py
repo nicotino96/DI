@@ -10,7 +10,7 @@ root.geometry("600x600")
 scale = tk.Scale(root, from_=0, to=100, orient="horizontal", command=actualizar_valor)
 scale.pack(pady=20)
 
-etiqueta=tk.Label(root, text="Valor: 0")
+etiqueta=tk.Label(root, text="Edad: 0")
 etiqueta.pack(pady=20)
 
 root.mainloop()

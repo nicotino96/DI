@@ -10,7 +10,7 @@ def cambiar_color():
         root.configure(bg="blue")
 
 root = tk.Tk()
-root.title("Entrada")
+root.title("Radiobutton")
 root.geometry("300x300")
 
 var_radio=tk.IntVar()
