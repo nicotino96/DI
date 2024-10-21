@@ -7,21 +7,18 @@ root = tk.Tk()
 root.title("Ventana con Scrollbar")
 root.geometry("400x300")
 
-# Crear un Frame para contener el Text y Scrollbar
 frame = tk.Frame(root)
 frame.pack(fill="both", expand=True)
 
-# Crear el widget Text
 texto = tk.Text(frame, wrap="word",width=51, height=10)
 texto.pack(side="left", fill="both", expand=True)
 texto.grid(row=0,column=0,sticky="nsew")
 
-# Crear la barra de desplazamiento vertical
+
 scrollbar = tk.Scrollbar(frame,orient="vertical", command=texto.yview)
 scrollbar.grid(row=0, column=1, sticky="ns")
 texto.config(yscrollcommand=scrollbar.set)
 
-# Texto largo que aparecerá en el Text
 contenido = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus odio tortor, laoreet nec
     vulputate viverra, tincidunt sit amet metus. Phasellus ut turpis nibh. Maecenas accumsan lacinia arcu sed
     tempus. Suspendisse nisi libero, condimentum vel tempus id, gravida eget ante. Nulla at consectetur neque,
@@ -59,7 +56,7 @@ contenido = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellu
     vulputate urna mauris et mi. Aliquam nec facilisis neque. Quisque sed enim sed velit efficitur finibus. Phasellus
     nunc quam, ullamcorper at quam sit amet, condimentum scelerisque quam.
 """
-# Insertar el texto largo en el Text widget
+
 texto.insert(tk.END, contenido)
 
 root.mainloop()
