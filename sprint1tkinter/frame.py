@@ -10,7 +10,7 @@ def borrar_contenido():
     entry.delete(0, tk.END)
     label_resultado.config(text="")  # Limpiar la etiqueta también
 
-# Crear la ventana principal
+
 root = tk.Tk()
 root.title("Interfaz con dos Frames")
 root.geometry("400x200")
