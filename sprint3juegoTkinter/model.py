@@ -1,6 +1,8 @@
 import threading
-from ast import Bytes
-from io import BytesIO
+import time
+import random
+import datetime
+from resources import descargar_imagen
 
 class GameModel:
     def __init__(self, difficulty, player_name, cell_size=100):
