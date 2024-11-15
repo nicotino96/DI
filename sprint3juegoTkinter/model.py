@@ -12,6 +12,7 @@ class GameModel:
     def __init__(self, difficulty, player_name, cell_size=100):
         self.start_time = None
         self.board = self._generate_board() #Según se instancia la clase se genera el tablero y se guarda en un atributo
+        self._load_images()
         self.images = {}
         self.hidden = None
         self.images_loaded = False

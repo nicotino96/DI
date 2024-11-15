@@ -1,13 +1,15 @@
 import tkinter as tk
 from model import GameModel
 from controller import GameController
-
-def main():
-    root = tk.Tk()
-    modelo = GameModel(medio, Nico)
-    vista = View(root)
-    controlador = GameController(modelo, vista)
-    root.mainloop()
+import tkinter as tk
+from controller import GameController
 
 if __name__ == "__main__":
-    main()
+    # Crear ventana principal de Tkinter
+    root = tk.Tk()
+
+    # Inicializar el controlador
+    controller = GameController(root)
+
+    # Iniciar el loop de la aplicación
+    root.mainloop()

@@ -3,15 +3,25 @@ import tkinter as tk
 class MainMenu:
     def __init__(self, root, start_game_callback, show_stats_callback, quit_callback):
         self.window = root
-        self.window.title("Juego memoria")#Título principal
-        (tk.Button(self.window, text="Jugar", command=start_game_callback).pack(pady=10))#botones
-        (tk.Button(self.window, text="Estadísticas", command=show_stats_callback).pack(pady=10))
-        (tk.Button(self.window, text="Salir", command=quit_callback).pack(pady=10))
+        self.window.title("Menú Principal - Juego de Memoria")
+        self.window.geometry("300x200")
+        self.window.resizable(False, False)
+
+        # Botón "Jugar"
+        btn_play = tk.Button(self.window, text="Jugar", command=start_game_callback, font=("Arial", 12))
+        btn_play.pack(pady=10)
+
+        # Botón "Estadísticas"
+        btn_stats = tk.Button(self.window, text="Estadísticas", command=show_stats_callback, font=("Arial", 12))
+        btn_stats.pack(pady=10)
+
+        # Botón "Salir"
+        btn_quit = tk.Button(self.window, text="Salir", command=quit_callback, font=("Arial", 12))
+        btn_quit.pack(pady=10)
 
 class GameView:
     def __init__(self, on_card_click_callback, update_move_count_callback,
                  update_time_callback):
-        self.root = None
         self.window = None
         self.labels = {}
         self.on_card_click_callback = on_card_click_callback
