@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import simpledialog
+
 
 class MainMenu:
     def __init__(self, root, start_game_callback, show_stats_callback, quit_callback):
@@ -18,6 +20,17 @@ class MainMenu:
         # Botón "Salir"
         btn_quit = tk.Button(self.window, text="Salir", command=quit_callback, font=("Arial", 12))
         btn_quit.pack(pady=10)
+
+
+
+    def ask_player_name(self):
+        """
+        Solicita el nombre del jugador mediante un cuadro de diálogo.
+        """
+        # Usamos simpledialog.askstring para solicitar el nombre del jugador
+        nombre = simpledialog.askstring("Nombre del Jugador", "Introduce tu nombre:", parent=self.window)
+
+        return nombre
 
 class GameView:
     def __init__(self, on_card_click_callback, update_move_count_callback,

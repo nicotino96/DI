@@ -3,13 +3,17 @@ from model import GameModel
 from controller import GameController
 import tkinter as tk
 from controller import GameController
+from view import MainMenu
+
+
+def main():
+    root = tk.Tk()
+    root.title("Juego de Memoria")
+
+    controller = GameController(root)
+    menu = MainMenu(root, controller)
+
+    root.mainloop()
 
 if __name__ == "__main__":
-    # Crear ventana principal de Tkinter
-    root = tk.Tk()
-
-    # Inicializar el controlador
-    controller = GameController(root)
-
-    # Iniciar el loop de la aplicación
-    root.mainloop()
+    main()
