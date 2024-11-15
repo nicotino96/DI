@@ -8,11 +8,7 @@ from view import MainMenu
 
 def main():
     root = tk.Tk()
-    root.title("Juego de Memoria")
-
     controller = GameController(root)
-    menu = MainMenu(root, controller)
-
     root.mainloop()
 
 if __name__ == "__main__":

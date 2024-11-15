@@ -24,14 +24,55 @@ class MainMenu:
 
 
     def ask_player_name(self):
-        """
-        Solicita el nombre del jugador mediante un cuadro de diálogo.
-        """
-        # Usamos simpledialog.askstring para solicitar el nombre del jugador
         nombre = simpledialog.askstring("Nombre del Jugador", "Introduce tu nombre:", parent=self.window)
-
         return nombre
 
+    def show_difficulty_selection(self):
+        """
+        Muestra una ventana emergente para que el usuario seleccione la dificultad
+        del juego usando RadioButtons con IntVar y luego ingrese su nombre.
+        """
+        # Crear una ventana Toplevel para la selección de dificultad
+        difficulty_window = tk.Toplevel(self.window)
+        difficulty_window.title("Seleccionar Dificultad")
+        difficulty_window.geometry("300x200")
+        difficulty_window.transient(self.window)
+        difficulty_window.grab_set()
+
+        # Variable IntVar para almacenar la selección de dificultad
+        difficulty_var = tk.IntVar(value=4)  # Por defecto 4 (Fácil)
+
+        # Etiqueta de instrucción
+        tk.Label(difficulty_window, text="Elige la dificultad:").pack(pady=10)
+
+        # Crear RadioButtons para seleccionar la dificultad
+        tk.Radiobutton(
+            difficulty_window,
+            text="Fácil (4x4)",
+            variable=difficulty_var,
+            value=4
+        ).pack(anchor=tk.W)
+
+        tk.Radiobutton(
+            difficulty_window,
+            text="Medio (6x6)",
+            variable=difficulty_var,
+            value=6
+        ).pack(anchor=tk.W)
+
+        tk.Radiobutton(
+            difficulty_window,
+            text="Difícil (8x8)",
+            variable=difficulty_var,
+            value=8
+        ).pack(anchor=tk.W)
+
+        def choose_difficulty():
+            # una vez cerrada la venta nos quedamos con la dificultad seleccionada en ese momento
+            difficulty_window.destroy()  # Cierra el diálogo
+        tk.Button(difficulty_window, text="Elegir", command=choose_difficulty).pack(pady=5)  # Botón para confirmar la selección
+        self.window.wait_window(difficulty_window)
+        return difficulty_var.get()
 class GameView:
     def __init__(self, on_card_click_callback, update_move_count_callback,
                  update_time_callback):
