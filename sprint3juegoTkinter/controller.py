@@ -36,19 +36,17 @@ class GameController:
         # Mostrar la ventana de carga
         self.game_view.show_loading_window()
 
-        # Comprobar si las imágenes se han cargado
-        self.check_images_loaded()
+        # Esperar hasta que las imágenes se hayan cargado
+        self.root.wait_window(self.game_view.loading_window)
 
-        # Iniciar el temporizador del juego (si es necesario)
-        self.time_started = True
-        self.game_view = GameView(
-                                    self.root,
+        # Inicializar GameView con la referencia al modelo
+        self.game_view = GameView(self.root,
                                   self.on_card_click,
                                   self.update_move_count,
                                   self.update_time)
-        self.game_view.window = tk.Toplevel(self.root)
-        self.game_view.create_board(self.model)
 
+        # Crear el tablero del juego
+        self.game_view.create_board(self.model)
 
     def show_stats_callback(self):
         """
