@@ -47,7 +47,7 @@ class GameModel:
                 # Carga imágenes para cada identificador de carta en el tablero
                 unique_ids = set(id for row in self.board for id in row)  # Identificadores únicos de cartas
                 for image_id in unique_ids:
-                    image_url = f"{url_base}imagen{image_id}.jpg"
+                    image_url = f"{url_base}imagen{image_id}.png"
                     self.images[image_id] = descargar_imagen(image_url, self.cell_size)
             except IOError as e:
                 messagebox.showerror("Error", "No se ha cargado la imagen")
