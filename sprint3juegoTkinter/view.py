@@ -21,17 +21,24 @@ class MainMenu:
         btn_quit = tk.Button(self.window, text="Salir", command=quit_callback, font=("Arial", 12))
         btn_quit.pack(pady=10)
 
+class GameView:
+    def __init__(self, root, on_card_click_callback, update_move_count_callback, update_time_callback):
+        self.root = root
+        self.window = None
+        self.labels = {}
+        self.moves_label = None
+        self.times_label = None
+        self.on_card_click_callback = on_card_click_callback
+        self.update_move_count_callback = update_move_count_callback
+        self.update_time_callback = update_time_callback
+        self.loading_window = None
 
 
     def ask_player_name(self):
-        nombre = simpledialog.askstring("Nombre del Jugador", "Introduce tu nombre:", parent=self.window)
+        nombre = simpledialog.askstring("Nombre del Jugador", "Introduce tu nombre:")
         return nombre
 
     def show_difficulty_selection(self):
-        """
-        Muestra una ventana emergente para que el usuario seleccione la dificultad
-        del juego usando RadioButtons con IntVar y luego ingrese su nombre.
-        """
         # Crear una ventana Toplevel para la selección de dificultad
         difficulty_window = tk.Toplevel(self.window)
         difficulty_window.title("Seleccionar Dificultad")
@@ -68,42 +75,53 @@ class MainMenu:
         ).pack(anchor=tk.W)
 
         def choose_difficulty():
-            # una vez cerrada la venta nos quedamos con la dificultad seleccionada en ese momento
-            difficulty_window.destroy()  # Cierra el diálogo
-        tk.Button(difficulty_window, text="Elegir", command=choose_difficulty).pack(pady=5)  # Botón para confirmar la selección
-        self.window.wait_window(difficulty_window)
-        return difficulty_var.get()
-class GameView:
-    def __init__(self, on_card_click_callback, update_move_count_callback,
-                 update_time_callback):
-        self.window = None
-        self.labels = {}
-        self.on_card_click_callback = on_card_click_callback
-        self.update_move_count_callback = update_time_callback
-        self.update_time_callback = update_time_callback
+            # Cerrar el diálogo y retornar la dificultad seleccionada
+            difficulty_window.destroy()
 
-    def create_board(self, root, model):
+        # Botón para confirmar la selección de dificultad
+        tk.Button(difficulty_window, text="Elegir", command=choose_difficulty).pack(pady=5)
+
+        # Esperar hasta que la ventana se cierre y luego obtener el valor seleccionado
+        self.root.wait_window(difficulty_window)
+        return difficulty_var.get()
+
+    def create_board(self, model):
         """
         Crea una ventana Toplevel para el tablero de juego utilizando el tamaño y contenido del modelo.
         """
         # Crear la ventana Toplevel
-        self.window = tk.Toplevel(root)
+        self.window = tk.Toplevel(self.root)
         self.window.title("Juego de Memoria - Tablero")
         self.window.geometry(f"{model.difficulty * model.cell_size}x{model.difficulty * model.cell_size}")
         self.window.resizable(False, False)
         # Crear el tablero visualmente
-        board = model._generate_board()  # Generar el tablero usando el modelo
         self.labels = {}  # Diccionario para almacenar los labels de cada carta
-        for row in range(model.difficulty):
-            for col in range(model.difficulty):
-                # Crear el label de la carta en el tablero
-                label = tk.Label(self.window, text="❓", width=10, height=5, bg="lightblue",
-                              font=("Arial", 14, "bold"))
-                # Asociar un callback al hacer clic en una carta
-                label.bind("<Button-1>", lambda event, r=row, c=col: self.on_card_click_callback(r, c))
+        k = 0
+        j = 0
+        for row in model.board:
+            j = 0
+            for i in row:
+                label = tk.Label(self.window, text="", image=model.hidden_image)
+                label.bind("<Button-1>", lambda event, pos=(j, k): self.on_card_click_callback(pos),
+                           self.update_move_count_callback)
+                label.grid(row=k, column=j)
+                self.labels[(j, k)] = label
+                j += 1
+            k += 1
+        self.moves_label = tk.Label(self.window, text=f"Movimientos: 0")
+        self.moves_label.grid(row=k, column=(j // 2))
+        self.times_label = tk.Label(self.window, text=f"Tiempo: 0")
+        self.times_label.grid(row=k, column=(j // 2) + 1)
 
-                # Posicionar la carta en la ventana Toplevel
-                label.grid(row=row, column=col, padx=5, pady=5)
+    def show_loading_window(self):
+        self.loading_window = tk.Toplevel(self.root)
+        self.loading_window.title("Cargando Imágenes...")
+        loading_label = tk.Label(self.loading_window, text="Descargando imágenes, por favor espera...")
+        loading_label.pack(padx=20, pady=20)
+        self.root.update()
 
-                # Almacenar el label en el diccionario
-                self.labels[(row, col)] = label
+    def hide_loading_window(self):
+        """Cierra la ventana de carga."""
+        if self.loading_window is not None:
+            self.loading_window.destroy()
+            self.loading_window = None

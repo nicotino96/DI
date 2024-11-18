@@ -1,9 +1,6 @@
 import tkinter as tk
-from model import GameModel
 from controller import GameController
-import tkinter as tk
-from controller import GameController
-from view import MainMenu
+
 
 
 def main():
