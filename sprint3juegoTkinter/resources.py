@@ -24,6 +24,3 @@ def descargar_imagen(url, size):
     except requests.exceptions.RequestException as req_err:
         print(f"Error de solicitud: {req_err}")
     return None
-def iniciar_descarga():
-    hilo = threading.Thread(target=descargar_imagen, args=(url,etiqueta))
-    hilo.start()

@@ -14,10 +14,10 @@ class GameModel:
         self.board = self._generate_board() #Según se instancia la clase se genera el tablero y se guarda en un atributo
         self.hidden_image = None
         self.images = {}
-        self._load_images()
         self.images_loaded = False
         self.player_name = player_name
         self.cell_size = cell_size
+        self._load_images()
         self.pares = 0
         self.pairs_found = 0
         self.moves = 0
@@ -39,7 +39,7 @@ class GameModel:
         La carga se realiza en segundo plano para no bloquear la interfaz.
         """
         def load_images_thread():
-            url_base = ""  # URL base de las imágenes
+            url_base = "https://raw.githubusercontent.com/nicotino96/DI/refs/heads/main/imagenes_juego/"  # URL base de las imágenes
             try:
                 # Carga la imagen oculta
                 hidden_image_url = f"{url_base}hidden.png"
@@ -47,12 +47,13 @@ class GameModel:
                 # Carga imágenes para cada identificador de carta en el tablero
                 unique_ids = set(id for row in self.board for id in row)  # Identificadores únicos de cartas
                 for image_id in unique_ids:
-                    image_url = f"{url_base}{image_id}.png"
+                    image_url = f"{url_base}imagen{image_id}.jpg"
                     self.images[image_id] = descargar_imagen(image_url, self.cell_size)
             except IOError as e:
                 messagebox.showerror("Error", "No se ha cargado la imagen")
             self.images_loaded=True  # Marca que las imágenes se han cargado
         # Inicia un hilo para cargar las imágenes sin bloquear la interfaz
+        self.images_loaded = threading.Event()
         threading.Thread(target=load_images_thread, daemon=True).start()
 
     def images_are_loaded(self):
