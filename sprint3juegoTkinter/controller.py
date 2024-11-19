@@ -7,6 +7,8 @@ from model import GameModel
 class GameController:
     def __init__(self, root):
         self.root = root
+        self.click_blocked = False
+        self.is_game_won = False
         self.model = None
         self.player_name=None
         self.difficulty = None
@@ -54,17 +56,88 @@ class GameController:
         if answer:
             self.root.quit()
 
-    def on_card_click(self, row, col):
-        # Aquí manejas la lógica cuando se hace clic en una carta
-        print(f"Carta clickeada en la posición: ({row}, {col})")
+    def on_card_click(self, pos):
+        """
+        Maneja el evento de clic en una carta del tablero.
+        - Inicia el temporizador si aún no ha comenzado.
+        - Almacena la posición de la carta seleccionada.
+        - Verifica coincidencias si se seleccionaron dos cartas.
+        """
+        # Verifica si el temporizador ya comenzó; si no, lo inicia.
+        row, col = pos
+        if not self.time_started:
+            self.model.start_timer()
+            self.time_started = True
+            self.update_time()  # Método para actualizar el temporizador en la interfaz
+
+        # Verifica si la carta ya ha sido seleccionada
+        if (row, col) in self.selected:
+            print(f"La carta en ({row}, {col}) ya está seleccionada.")
+            return
+
+        # Almacena la posición seleccionada
+        self.selected[(row, col)] = self.model.board[row][col]
+        card_value = self.selected[(row, col)]
+        self.game_view.update_board(row, col, self.model.images[card_value])  # Muestra la imagen
+
+        # Si hay dos cartas seleccionadas, verifica si coinciden
+        if len(self.selected) == 2:
+            self.root.after(500, self.handle_card_selection)  # Retrasa para mostrar las cartas seleccionadas
+
+    def handle_card_selection(self):
+        """
+        Maneja la validación de las cartas seleccionadas.
+        - Si coinciden, las mantiene visibles.
+        - Si no coinciden, las oculta nuevamente.
+        """
+        # Obtiene las posiciones y valores de las dos cartas seleccionadas
+        (pos1, card1), (pos2, card2) = list(self.selected.items())
+
+        if card1 == card2:
+            # Las cartas coinciden
+            print(f"¡Pareja encontrada en {pos1} y {pos2}!")
+            self.model.pairs_found += 1
+            self.game_view.lock_card(pos1)  # Bloquea la carta en la vista
+            self.game_view.lock_card(pos2)  # Bloquea la carta en la vista
+        else:
+            # Las cartas no coinciden
+            print(f"No hay coincidencia: {pos1} ({card1}) y {pos2} ({card2})")
+            self.game_view.hide_card(*pos1)  # Oculta la carta en la vista
+            self.game_view.hide_card(*pos2)  # Oculta la carta en la vista
+
+        # Limpia las cartas seleccionadas
+        self.selected.clear()
+
+        # Actualiza el contador de movimientos
+        self.model.moves += 1
+        self.update_move_count(self.model.moves)
+
+        # Verifica si el juego está completo
+        if self.model.is_game_completed():
+            self.handle_game_completion()
 
     def update_move_count(self, count):
-        # Aquí manejas la actualización del contador de movimientos
+        # Actualiza el contador de movimientos en la consola y en la interfaz gráfica
         print(f"Movimientos realizados: {count}")
+        if self.game_view is not None:
+            self.game_view.update_move_count(count)
 
-    def update_time(self, time):
-        # Aquí manejas la actualización del tiempo transcurrido
-        print(f"Tiempo transcurrido: {time}")
+    def update_time(self):
+        if self.game_view is not None:
+            self.game_view.update_time(self.model.get_time())
+
+            if not self.is_game_won:
+                self.root.after(1000, self.update_time)
+
+    def revert_cards(self):
+        # Revertir las cartas que no son una pareja
+        self.game_view.labels[(self.cards_shown[0][0], self.cards_shown[0][1])].config(image=self.model.hidden_image)
+        self.game_view.labels[(self.cards_shown[1][0], self.cards_shown[1][1])].config(image=self.model.hidden_image)
+        # Limpiar la lista de cartas mostradas
+        self.cards_shown.clear()
+
+        # Desbloquear los clics para la siguiente selección
+        self.click_blocked = False
 
     def check_images_loaded(self):
         """Verifica periódicamente si las imágenes están cargadas antes de continuar."""
@@ -102,3 +175,14 @@ class GameController:
         # Crea el tablero del juego
         self.game_view.create_board(self.model)
         # Actualiza cualquier otra parte de la interfaz si es necesario
+
+    def handle_game_completion(self):
+        """
+        Maneja la finalización del juego.
+        """
+        print("¡Juego completado!")
+        time_taken = self.model.get_time()
+        moves = self.model.moves
+        messagebox.showinfo("¡Felicidades!", f"Juego completado en {time_taken} segundos y {moves} movimientos.")
+        self.model.save_score()  # Guarda la puntuación
+        self.return_to_main_menu()
