@@ -24,9 +24,9 @@ class GameController:
             update_time_callback=self.update_time  # Método para actualizar tiempo
         )
         self.time_started = False
-    def start_game_callback(self):
-        self.difficulty=self.game_view.show_difficulty_selection()
 
+    def start_game_callback(self):
+        self.difficulty = self.game_view.show_difficulty_selection()
         self.player_name = self.game_view.ask_player_name()
         messagebox.showinfo("Información", f"Dificultad: {self.difficulty}, Jugador: {self.player_name}")
 
@@ -36,17 +36,8 @@ class GameController:
         # Mostrar la ventana de carga
         self.game_view.show_loading_window()
 
-        # Esperar hasta que las imágenes se hayan cargado
-        self.root.wait_window(self.game_view.loading_window)
-
-        # Inicializar GameView con la referencia al modelo
-        self.game_view = GameView(self.root,
-                                  self.on_card_click,
-                                  self.update_move_count,
-                                  self.update_time)
-
-        # Crear el tablero del juego
-        self.game_view.create_board(self.model)
+        # Comienza a verificar si las imágenes están cargadas
+        self.check_images_loaded()
 
     def show_stats_callback(self):
         """
@@ -76,13 +67,14 @@ class GameController:
         print(f"Tiempo transcurrido: {time}")
 
     def check_images_loaded(self):
-        """Verifica si las imágenes están cargadas antes de continuar."""
-        if not self.model.images_are_loaded():
-            # Actualiza la ventana de carga mientras espera
-            self.root.after(100, self.check_images_loaded)
+        """Verifica periódicamente si las imágenes están cargadas antes de continuar."""
+        if self.model.images_are_loaded().is_set():  # Verifica si el evento está activado
+            print("Las imágenes se han cargado correctamente. Cerrando ventana de carga.")
+            self.game_view.hide_loading_window()  # Cierra la ventana de carga
+            self.initialize_game_view()  # Configura la interfaz del juego
         else:
-            # Las imágenes están cargadas, cerrar la ventana de carga desde GameView
-            self.game_view.hide_loading_window()
+            # Revisa nuevamente después de 100 ms
+            self.root.after(100, self.check_images_loaded)
 
     def return_to_main_menu(self):
         # Mostrar la ventana principal nuevamente
@@ -104,3 +96,9 @@ class GameController:
         self.difficulty = None  # O cualquier otra variable que quieras resetear
         self.player_name = None
         self.time_started = False
+
+    def initialize_game_view(self):
+        """Inicializa la vista del juego después de que las imágenes estén cargadas."""
+        # Crea el tablero del juego
+        self.game_view.create_board(self.model)
+        # Actualiza cualquier otra parte de la interfaz si es necesario

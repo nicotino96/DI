@@ -14,7 +14,7 @@ class GameModel:
         self.board = self._generate_board() #Según se instancia la clase se genera el tablero y se guarda en un atributo
         self.hidden_image = None
         self.images = {}
-        self.images_loaded = False
+        self.images_loaded = threading.Event()
         self.player_name = player_name
         self.cell_size = cell_size
         self._load_images()
@@ -33,27 +33,47 @@ class GameModel:
             row = self.pares[i:i + self.difficulty]
             board.append(row)
         return board
+
     def _load_images(self):
         """
-        Carga las imágenes de las cartas y la imagen oculta en un hilo separado.
-        La carga se realiza en segundo plano para no bloquear la interfaz.
+        Descarga las imágenes en un hilo separado para no bloquear la interfaz.
         """
+
         def load_images_thread():
-            url_base = "https://raw.githubusercontent.com/nicotino96/DI/refs/heads/main/imagenes_juego/"  # URL base de las imágenes
+            url_base = "https://raw.githubusercontent.com/nicotino96/DI/refs/heads/main/imagenes_juego/"
             try:
-                # Carga la imagen oculta
+                # Descarga la imagen oculta
                 hidden_image_url = f"{url_base}hidden.png"
+                print(f"Descargando imagen oculta: {hidden_image_url}")
                 self.hidden_image = descargar_imagen(hidden_image_url, self.cell_size)
-                # Carga imágenes para cada identificador de carta en el tablero
-                unique_ids = set(id for row in self.board for id in row)  # Identificadores únicos de cartas
+
+                # Descarga imágenes únicas basadas en los identificadores del tablero
+                unique_ids = set(card_id for row in self.board for card_id in row)
+                print(f"Identificadores únicos encontrados: {unique_ids}")
+
                 for image_id in unique_ids:
                     image_url = f"{url_base}imagen{image_id}.png"
-                    self.images[image_id] = descargar_imagen(image_url, self.cell_size)
-            except IOError as e:
-                messagebox.showerror("Error", "No se ha cargado la imagen")
-            self.images_loaded=True  # Marca que las imágenes se han cargado
-        # Inicia un hilo para cargar las imágenes sin bloquear la interfaz
+                    try:
+                        print(f"Descargando imagen: {image_url}")
+                        self.images[image_id] = descargar_imagen(image_url, self.cell_size)
+                        print(f"Imagen descargada correctamente: {image_url}")
+                    except Exception as e:
+                        print(f"Error al descargar la imagen {image_url}: {e}")
+
+                # Marca que todas las imágenes se han descargado
+                self.images_loaded.set()
+                print("Todas las imágenes se han descargado correctamente.")
+
+            except Exception as e:
+                print(f"Error durante la descarga de imágenes: {e}")
+                messagebox.showerror("Error", "No se han podido cargar todas las imágenes.")
+                self.images_loaded.clear()  # Indica un error al cargar las imágenes
+
+        # Inicializa el evento para controlar el estado de las imágenes
         self.images_loaded = threading.Event()
+        print("Evento inicializado para la carga de imágenes.")
+
+        # Inicia el hilo
         threading.Thread(target=load_images_thread, daemon=True).start()
 
     def images_are_loaded(self):
