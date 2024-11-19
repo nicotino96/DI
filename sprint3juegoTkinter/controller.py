@@ -2,10 +2,11 @@ from tkinter import simpledialog, messagebox
 import tkinter as tk
 from view import MainMenu, GameView
 from model import GameModel
-
+from stats import StatsManager
 
 class GameController:
     def __init__(self, root):
+        self.stats = StatsManager
         self.root = root
         self.click_blocked = False
         self.is_game_won = False
@@ -43,11 +44,29 @@ class GameController:
 
     def show_stats_callback(self):
         """
-        Función que se ejecuta al hacer clic en "Estadísticas".
+        Muestra las estadísticas en una ventana emergente.
         """
-        tk.messagebox.showinfo("Estadísticas", "Mostrando estadísticas (en desarrollo).")
-        # Aquí se mostrarían las estadísticas. Actualmente muestra un mensaje.
+        # Obtener las estadísticas
+        results = StatsManager.get_stats()
 
+        # Crear el contenido para mostrar en el messagebox
+        message = "Tabla de Puntuaciones\n\n"
+        for difficulty, scores in results.items():
+            message += f"Dificultad {difficulty}:\n"
+            if not scores:
+                message += "  No hay puntuaciones.\n"
+            else:
+                for i, score in enumerate(scores):
+                    nombre = score.get('nombre', 'Desconocido')  # Valor por defecto si no existe
+                    movimientos = score.get('movimientos', 'N/A')  # Valor por defecto si no existe
+                    tiempo = score.get('tiempo', 'N/A')  # Valor por defecto si no existe
+                    fecha = score.get('fecha', 'Desconocida')  # Valor por defecto si no existe
+
+                    message += f"  {i + 1}. {nombre} - Movimientos: {movimientos} - Tiempo: {tiempo}s - Fecha: {fecha}\n"
+            message += "\n"
+
+        # Mostrar el messagebox con los resultados
+        messagebox.showinfo("Historial de Resultados", message)
     def quit_callback(self):
         """
         Función que se ejecuta al hacer clic en "Salir".
@@ -122,7 +141,7 @@ class GameController:
             self.game_view.update_move_count(count)
 
     def update_time(self):
-        if self.game_view is not None:
+        if self.game_view and self.model is not None:#solo cuando estén inicializados los modelos (cuando empieza el juego)
             self.game_view.update_time(self.model.get_time())
 
             if not self.is_game_won:
@@ -179,5 +198,5 @@ class GameController:
         time_taken = self.model.get_time()
         moves = self.model.moves
         messagebox.showinfo("¡Felicidades!", f"Juego completado en {time_taken} segundos y {moves} movimientos.")
-        self.model.save_score()  # Guarda la puntuación
+        self.stats.save_score()  # Guarda la puntuación
         self.return_to_main_menu()
