@@ -93,10 +93,9 @@ class GameController:
         # Obtiene las posiciones y valores de las dos cartas seleccionadas
         (pos1, card1), (pos2, card2) = list(self.selected.items())
 
-        if card1 == card2:
+        if self.model.check_match(pos1 , pos2):
             # Las cartas coinciden
             print(f"¡Pareja encontrada en {pos1} y {pos2}!")
-            self.model.pairs_found += 1
             self.game_view.lock_card(pos1)  # Bloquea la carta en la vista
             self.game_view.lock_card(pos2)  # Bloquea la carta en la vista
         else:
@@ -109,7 +108,7 @@ class GameController:
         self.selected.clear()
 
         # Actualiza el contador de movimientos
-        self.model.moves += 1
+
         self.update_move_count(self.model.moves)
 
         # Verifica si el juego está completo
@@ -177,10 +176,6 @@ class GameController:
         # Actualiza cualquier otra parte de la interfaz si es necesario
 
     def handle_game_completion(self):
-        """
-        Maneja la finalización del juego.
-        """
-        print("¡Juego completado!")
         time_taken = self.model.get_time()
         moves = self.model.moves
         messagebox.showinfo("¡Felicidades!", f"Juego completado en {time_taken} segundos y {moves} movimientos.")
