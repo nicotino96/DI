@@ -1,10 +1,6 @@
-import threading
-from http.client import responses
-
 from PIL import Image, ImageTk
 import requests
 from io import BytesIO
-import tkinter as tk
 
 def descargar_imagen(url, size):
     try:
