@@ -5,17 +5,18 @@ import time
 import random
 from datetime import datetime
 from tkinter import messagebox
-
+from stats import StatsManager
 from resources import descargar_imagen
 import threading
 class GameModel:
     def __init__(self, difficulty, player_name, cell_size=100):
         self.start_time = None
+        self.stats_manager = StatsManager() # para manejar las stadísticas
         self.difficulty = difficulty
         self.board = self._generate_board() #Según se instancia la clase se genera el tablero y se guarda en un atributo
         self.hidden_image = None
         self.images = {}
-        self.images_loaded = threading.Event()
+        self.images_loaded = threading.Event() # hilo para descargar de forma asíncrona
         self.player_name = player_name
         self.cell_size = cell_size
         self._load_images()
@@ -105,14 +106,13 @@ class GameModel:
         return False
     def is_game_completed(self):
         if self.pairs_found == self.difficulty**2 // 2:
-            self.save_score()  # Guarda la puntuación al completar el juego
+            self.stats_manager.save_score(difficulty=self.difficulty, score=self.moves)  # Guarda la puntuación al completar el juego
             return True
         return False
-
+"""
     def save_score(self):
-        """
-        Guarda la puntuación del jugador en un archivo JSON.
-        """
+        
+        
         score_file = "ranking.json"
 
         # Crea la estructura base del archivo si no existe
@@ -141,32 +141,28 @@ class GameModel:
         with io.open(score_file, "w", encoding="utf-8") as file:
             json.dump(data, file, indent=4)
 
-    def load_scores(self):
-        """
-        Carga y devuelve las puntuaciones desde el archivo ranking.json.
-        Si el archivo no existe, devuelve un diccionario vacío con listas
-        para cada nivel de dificultad.
-        """
-        ranking_file = "ranking.json"
 
-        # Verificar si el archivo existe, si no, devolver un diccionario vacío
-        if not os.path.exists(ranking_file):
-            return {"4": [], "6": [], "8": []}
-
+    def show_stats(self):
+        
         try:
-            # Abrir y leer el archivo JSON
-            with open(ranking_file, "r") as file:
-                rankings = json.load(file)
+            # Verifica si el archivo de puntuaciones existe
+            if not os.path.exists("ranking.json"):
+                return {}
 
-            # Validar el formato del archivo JSON, asegurándose de que tenga las claves esperadas
-            if not all(str(d) in rankings for d in [4, 6, 8]):
-                # Si el formato no es correcto, inicializar con diccionarios vacíos
-                rankings = {"4": [], "6": [], "8": []}
+            with open("ranking.json", "r", encoding="utf-8") as file:
+                data = json.load(file)
 
-            return rankings
+            # Ordenar las puntuaciones por dificultad
+            stats = {}
+            for difficulty, scores in data.items():
+                if scores:
+                    stats[difficulty] = sorted(
+                        scores, key=lambda x: x["moves"]
+                    )  # Ordena por movimientos
 
-        except (IOError, json.JSONDecodeError) as e:
-            print(f"Error al cargar el ranking: {e}")
-            # En caso de error, devolver un diccionario vacío para evitar fallos en el programa
-            return {"4": [], "6": [], "8": []}
+            return stats
 
+        except Exception as e:
+            print(f"Error al cargar estadísticas: {e}")
+            return {}
+"""
