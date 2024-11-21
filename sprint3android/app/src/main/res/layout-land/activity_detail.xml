@@ -1,0 +1,58 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jonny Greenwood"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp" />
+
+    <!-- Imagen circular -->
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/jonnygreenwood"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp" />
+
+    <!-- Descripción -->
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Jonathan Richard Guy Greenwood (Oxford, 5 de noviembre de 1971), más conocido como Jonny Greenwood, es un reconocido músico multinstrumentalista y compositor británico, conocido por ser integrante de la banda de rock Radiohead, además de músico y compositor de música clásica contemporánea y música experimental en su trabajo en solitario, y en la banda de rock alternativo The Smile. Su rol principal en Radiohead es el de guitarra solista y teclista, aunque también toca la viola, la armónica, el glockenspiel, las ondas Martenot, el banjo o la percusión. En 2011 la revista Rolling Stone lo situó en el puesto 48.º en la Lista de los 100 guitarristas más grandes de todos los tiempos."
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="15dp" />
+
+    <!-- Botón Me gusta -->
+    <Button
+        android:id="@+id/btn_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mockup Like"
+        app:layout_constraintTop_toBottomOf="@id/tv_description"
+        app:layout_constraintStart_toEndOf="@id/iv_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="15dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
