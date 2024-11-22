@@ -37,7 +37,7 @@
         android:id="@+id/tv_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Cualquier descripción."
+        android:text="Multiinstrumentis de Radiohead, The Smile y compositor de bandas sonoras"
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@id/iv_image"
         app:layout_constraintStart_toStartOf="parent"
