@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "636731622583",
+    "project_id": "vinilos-fa255",
+    "storage_bucket": "vinilos-fa255.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636731622583:android:a547e4f2eb8e04215bb932",
+        "android_client_info": {
+          "package_name": "com.example.tiendadevinilos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBmfuE18UnpXt5ctXuaO6p6zlJO0XKilI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
