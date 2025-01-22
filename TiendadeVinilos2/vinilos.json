@@ -1,7 +1,54 @@
 {
-  "item": {
-    "title": "Harvest - Neil Young",
-    "description": "Disco de Neil Young publicado en 1972",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/en/9/9b/NeilYoungHarvestalbumcover.jpg"
+  "items": {
+    "1": {
+      "title": "Kid A - Radiohead",
+      "description": "El aclamado álbum de Radiohead, que marcó un cambio hacia sonidos más electrónicos y experimentales, redefiniendo el rock alternativo.",
+      "imageUrl": "https://example.com/kid_a.jpg"
+    },
+    "2": {
+      "title": "Return To Forever - Chick Corea",
+      "description": "Un hito en el jazz fusión, este álbum presenta composiciones complejas y virtuosas que se convirtieron en un clásico del género.",
+      "imageUrl": "https://example.com/return_to_forever.jpg"
+    },
+    "3": {
+      "title": "Skinty Fia - Fontaines D.C.",
+      "description": "Un álbum que explora las raíces irlandesas de la banda con un sonido oscuro y emocional, lleno de energía post-punk.",
+      "imageUrl": "https://example.com/skinty_fia.jpg"
+    },
+    "4": {
+      "title": "Houses of the Holy - Led Zeppelin",
+      "description": "Uno de los álbumes más versátiles de Led Zeppelin, mezclando rock clásico con toques de reggae y baladas épicas.",
+      "imageUrl": "https://example.com/houses_of_the_holy.jpg"
+    },
+    "5": {
+      "title": "Stadium Arcadium - Red Hot Chili Peppers",
+      "description": "Un ambicioso álbum doble lleno de energía funk-rock y baladas melódicas, que destaca el talento de la banda.",
+      "imageUrl": "https://example.com/stadium_arcadium.jpg"
+    },
+    "6": {
+      "title": "Dummy - Portishead",
+      "description": "Un álbum esencial del trip-hop, con atmósferas oscuras y melancólicas que definen un género único.",
+      "imageUrl": "https://example.com/dummy.jpg"
+    },
+    "7": {
+      "title": "Harvest - Neil Young",
+      "description": "\n\"On the Beach\" es un álbum de Neil Young lanzado en 1974, considerado uno de sus trabajos más introspectivos y oscuros. Este disco refleja un periodo tumultuoso en la vida del artista, explorando temas de aislamiento, desencanto con la fama y melancolía. Musicalmente, combina elementos de folk rock y country con una producción cruda que resalta su honestidad emocional. Aunque inicialmente no recibió el reconocimiento que merecía, con el tiempo se ha convertido en un clásico de culto, apreciado por su vulnerabilidad y profundidad lírica.",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/en/9/9b/NeilYoungHarvestalbumcover.jpg"
+    },
+    "8": {
+      "title": "The Boatman's Call - Nick Cave & the Bad Seeds",
+      "description": "Un álbum introspectivo y emocional, con canciones profundamente personales y minimalismo musical.",
+      "imageUrl": "https://example.com/boatmans_call.jpg"
+    },
+    "9": {
+      "title": "The White Album - The Beatles",
+      "description": "Un álbum icónico de los Beatles que abarca una variedad de estilos musicales, desde el rock hasta el folk y la experimentación.",
+      "imageUrl": "https://example.com/white_album.jpg"
+    },
+    "10": {
+      "title": "Pastel Blues - Nina Simone",
+      "description": "Un álbum poderoso que combina blues, jazz y soul, mostrando la profunda emotividad y talento vocal de Nina Simone.",
+      "imageUrl": "https://example.com/pastel_blues.jpg"
+    }
   }
 }

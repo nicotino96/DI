@@ -35,13 +35,14 @@ public class DashboardActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("item");
-
         titleTextView = findViewById(R.id.titleTextView);
         descriptionTextView = findViewById(R.id.descriptionTextView);
         imageView = findViewById(R.id.imageView);
         logoutButton = findViewById(R.id.logoutButton);
 
-        loadDataFromFirebase();
+        databaseReference = FirebaseDatabase.getInstance().getReference("items");
+
+        loadDataFromFirebase("2");
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,8 +51,8 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
     }
-    private void loadDataFromFirebase(){
-        databaseReference.addValueEventListener(new ValueEventListener() {
+    private void loadDataFromFirebase(String itemID){
+        databaseReference.child(itemID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
