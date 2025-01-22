@@ -1,5 +1,6 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.application) // Plugin de Android para aplicaciones
+    alias(libs.plugins.google)    // Plugin de Google Services
 }
 
 android {
