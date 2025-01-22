@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tienda de Vinilos</string>
+    <string name="image">Imagen de un vinilo</string>
 </resources>

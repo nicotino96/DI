@@ -48,12 +48,12 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Please enter your email");
+            emailEditText.setError("Por favor introduce tu email");
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Please enter your password");
+            passwordEditText.setError("Por favor introduce tu contraseña");
             return;
         }
 
@@ -62,9 +62,11 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Inciada sesión!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                        startActivity(intent);
                     } else {
-                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                        Toast.makeText(LoginActivity.this, "Fallo en la autenticación.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
