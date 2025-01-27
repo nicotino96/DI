@@ -4,13 +4,18 @@ plugins {
 }
 
 android {
+
+    buildFeatures {
+        dataBinding = true
+    }
+
     namespace = "com.example.tiendadevinilos"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.tiendadevinilos"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -33,6 +38,10 @@ android {
 }
 
 dependencies {
+    implementation (libs.lifecycle.extensions)
+    implementation (libs.lifecycle.livedata.ktx)
+    implementation (libs.lifecycle.viewmodel.ktx)
+    implementation (libs.recyclerview)
     implementation(libs.glide)
     implementation(libs.appcompat)
     implementation(libs.material)
