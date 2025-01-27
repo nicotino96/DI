@@ -8,6 +8,9 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    viewBinding{
+        enable = true;
+    }
 
     namespace = "com.example.tiendadevinilos"
     compileSdk = 35
