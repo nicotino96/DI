@@ -1,77 +1,49 @@
 package com.example.tiendadevinilos;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.tiendadevinilos.databinding.ActivityLoginBinding;
+import com.example.tiendadevinilos.viewmodels.LoginViewModel;
+
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText emailEditText;
-    private EditText passwordEditText;
-    private Button loginButton;
-    private Button registerButton;
-    private FirebaseAuth mAuth;
+
+    private ActivityLoginBinding binding;
+    private LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
-        emailEditText = findViewById(R.id.emailEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        loginButton = findViewById(R.id.loginButton);
-        registerButton = findViewById(R.id.registerButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleLogin();
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        binding.loginButton.setOnClickListener(v -> handleLogin());
+        binding.registerButton.setOnClickListener(v -> navigateToRegister());
+        loginViewModel.getUserLiveData().observe(this, user -> {
+            if (user != null) {
+                Toast.makeText(this, "Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, DashboardActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        loginViewModel.getErrorLiveData().observe(this, errorMessage -> {
+            if (errorMessage != null) {
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToRegister();
-            }
-        });
     }
     private void handleLogin() {
-        String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
-
-        if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Por favor introduce tu email");
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Por favor introduce tu contraseña");
-            return;
-        }
-
-        // Firebase login
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(LoginActivity.this, "Inciada sesión!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Fallo en la autenticación.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+        String email = binding.emailEditText.getText().toString().trim();
+        String password = binding.passwordEditText.getText().toString().trim();
+        loginViewModel.loginUser(email, password); // Pasa los datos al ViewModel
     }
-
     private void navigateToRegister() {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
