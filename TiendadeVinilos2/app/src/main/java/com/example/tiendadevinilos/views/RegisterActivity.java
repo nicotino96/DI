@@ -1,4 +1,4 @@
-package com.example.tiendadevinilos;
+package com.example.tiendadevinilos.views;
 
 import android.os.Bundle;
 import android.widget.Toast;

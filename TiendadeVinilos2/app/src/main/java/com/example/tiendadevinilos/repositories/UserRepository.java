@@ -1,21 +1,12 @@
 package com.example.tiendadevinilos.repositories;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.content.Intent;
-import android.widget.Toast;
-
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.tiendadevinilos.DashboardActivity;
-import com.example.tiendadevinilos.LoginActivity;
 import com.example.tiendadevinilos.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.concurrent.Executor;
 
 public class UserRepository {
     private final FirebaseAuth auth;
