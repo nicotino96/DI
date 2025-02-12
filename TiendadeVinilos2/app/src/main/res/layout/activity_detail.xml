@@ -31,5 +31,13 @@
             android:textColor="@android:color/darker_gray"
             android:paddingTop="8dp" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_favorite_border"
+            android:backgroundTint="@android:color/background_light" />
     </LinearLayout>
 </layout>

@@ -17,7 +17,6 @@ import java.util.List;
 public class DashboardViewModel extends ViewModel {
     private final MutableLiveData<List<Product>> productsLiveData = new MutableLiveData<>();
     private final ProductRepository productRepository;
-    private final MutableLiveData<Product> selectedProduct = new MutableLiveData<>();
 
     public DashboardViewModel() {
         productRepository = new ProductRepository();
@@ -27,13 +26,8 @@ public class DashboardViewModel extends ViewModel {
         return productsLiveData;
     }
 
-    private void selectProduct(Product product) {
-        productRepository.getProducts(productsLiveData);
-    }
     private void loadProducts() {
         productRepository.getProducts(productsLiveData);
     }
-    public LiveData<Product> getSelectedRecipe() {
-        return selectedProduct;
-    }
+
 }
