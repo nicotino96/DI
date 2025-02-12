@@ -13,20 +13,25 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FavoriteRepository {
     private final DatabaseReference favRef;
+    private final DatabaseReference productsRef;
     private final String userId;
 
     public FavoriteRepository() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         if (currentUser != null) {
             userId = currentUser.getUid();
             favRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("favorites");
+            productsRef = database.getReference("items");
             Log.d("FavoriteRepository", "Initialized with userId: " + userId);
         } else {
             userId = null;
-            favRef = null;
+            favRef = database.getReference();
+            productsRef = database.getReference("items");
             Log.e("FavoriteRepository", "No user logged in!");
         }
     }
@@ -58,16 +63,39 @@ public class FavoriteRepository {
         void onChecked(boolean isFavorite);
     }
     public void getFavoriteItems(OnFavoriteItemsLoadedListener listener) {
+        if (favRef == null) {
+            listener.onLoaded(new ArrayList<>());
+            return;
+        }
+
         favRef.get().addOnSuccessListener(snapshot -> {
             List<Product> items = new ArrayList<>();
-            for (DataSnapshot child : snapshot.getChildren()) {
-                Product product = child.getValue(Product.class);
-                if (product != null) {
-                    items.add(product);
-                }
+            int totalFavorites = (int) snapshot.getChildrenCount();
+            AtomicInteger loadedCount = new AtomicInteger(0);
+
+            if (!snapshot.hasChildren()) {
+                listener.onLoaded(items);
+                return;
             }
-            listener.onLoaded(items);
-        });
+
+            for (DataSnapshot favoriteSnapshot : snapshot.getChildren()) {
+                String productId = favoriteSnapshot.getKey();
+                productsRef.child(productId).get().addOnSuccessListener(productSnapshot -> {
+                    Product product = productSnapshot.getValue(Product.class);
+                    if (product != null) {
+                        items.add(product);
+                    }
+
+                    if (loadedCount.incrementAndGet() == totalFavorites) {
+                        listener.onLoaded(items);
+                    }
+                }).addOnFailureListener(e -> {
+                    if (loadedCount.incrementAndGet() == totalFavorites) {
+                        listener.onLoaded(items);
+                    }
+                });
+            }
+        }).addOnFailureListener(e -> listener.onLoaded(new ArrayList<>()));
     }
     public interface OnFavoriteItemsLoadedListener {
         void onLoaded(List<Product> items);
