@@ -28,6 +28,9 @@
         <activity
             android:name=".views.DetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".views.FavouritesActivity"
+            android:exported="false" />
     </application>
 
 

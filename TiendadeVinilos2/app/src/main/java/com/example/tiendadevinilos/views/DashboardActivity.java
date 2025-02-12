@@ -59,5 +59,9 @@ public class DashboardActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+        binding.fabFavorites.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, FavouritesActivity.class);
+            startActivity(intent);
+        });
     }
 }

@@ -25,6 +25,7 @@ public class ProductRepository {
                 List<Product> products = new ArrayList<>();
                 for (DataSnapshot child : snapshot.getChildren()) {
                     Product product = child.getValue(Product.class);
+                    product.setId(child.getKey());
                     products.add(product);
                 }
                 productLiveData.setValue(products);

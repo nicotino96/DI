@@ -1,10 +1,14 @@
 package com.example.tiendadevinilos.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.tiendadevinilos.repositories.FavoriteRepository;
+import com.example.tiendadevinilos.repositories.UserRepository;
+import com.google.android.gms.tasks.Task;
 
 public class DetailViewModel extends ViewModel {
     private final FavoriteRepository repository;
@@ -19,29 +23,34 @@ public class DetailViewModel extends ViewModel {
     }
 
     public void checkIfFavorite(String productId) {
-        if (productId == null) return; // Evita llamadas con valores nulos
+        if (productId == null) return;
 
         repository.checkIfFavorite(productId, new FavoriteRepository.OnFavoriteCheckedListener() {
             @Override
             public void onChecked(boolean favorite) {
-                isFavorite.postValue(favorite); // Se actualiza LiveData de forma segura en el hilo principal
+                isFavorite.postValue(favorite); // Asegura que la UI reciba la actualización
             }
         });
     }
 
     public void toggleFavorite(String productId) {
-        if (productId == null) return; // Evita llamadas con valores nulos
+        if (productId == null) return;
 
-        boolean currentState = Boolean.TRUE.equals(isFavorite.getValue());
-        isFavorite.setValue(!currentState);
+        boolean newState = !Boolean.TRUE.equals(isFavorite.getValue());
+        Log.d("DetailViewModel", "Toggling favorite to: " + newState);
 
-        if (currentState) {
-            repository.removeFavorite(productId);
+        Task<Void> task;
+        if (newState) {
+            task = repository.addFavorite(productId);
         } else {
-            repository.addFavorite(productId);
+            task = repository.removeFavorite(productId);
         }
 
-        // La actualización se delega a Firebase y no se establece manualmente
-        checkIfFavorite(productId);
+        task.addOnSuccessListener(aVoid -> {
+            Log.d("DetailViewModel", "Firebase operation successful");
+            isFavorite.setValue(newState);
+        }).addOnFailureListener(e -> {
+            Log.e("DetailViewModel", "Firebase operation failed", e);
+        });
     }
 }

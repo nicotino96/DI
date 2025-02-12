@@ -14,9 +14,17 @@
             app:icon="@drawable/button_logout"
             android:text="@string/logout"
             />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_favorite"
+            android:contentDescription="Ver favoritos"
+            app:layout_anchorGravity="bottom|end"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
     </LinearLayout>
 </layout>

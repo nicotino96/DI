@@ -1,9 +1,11 @@
 package com.example.tiendadevinilos.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.example.tiendadevinilos.R;
@@ -34,17 +36,28 @@ public class DetailActivity extends AppCompatActivity {
         binding.productDescription.setText(description);
         Glide.with(this).load(imageUrl).into(binding.productImage);
 
+
+
+        // Manejar clic en el botón de favoritos
+        binding.fabFavorite.setOnClickListener(v -> {
+            viewModel.toggleFavorite(productId); // Alternar favorito
+        });
         // Verificar si es favorito
         viewModel.checkIfFavorite(productId);
         viewModel.getIsFavorite().observe(this, isFav -> {
-            if (isFav) {
-                binding.fabFavorite.setImageResource(R.drawable.ic_favorite);
-            } else {
-                binding.fabFavorite.setImageResource(R.drawable.ic_favorite_border);
-            }
+            Log.d("DetailActivity", "Favorite state changed to: " + isFav);
+            binding.fabFavorite.setImageDrawable(
+                    ContextCompat.getDrawable(this,
+                            Boolean.TRUE.equals(isFav) ?
+                                    R.drawable.ic_favorite_border :
+                                    R.drawable.ic_favorite
+                    )
+            );
         });
-
-        // Manejar clic en el botón de favoritos
-        binding.fabFavorite.setOnClickListener(v -> viewModel.toggleFavorite(productId));
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewModel.getIsFavorite().removeObservers(this);
     }
 }

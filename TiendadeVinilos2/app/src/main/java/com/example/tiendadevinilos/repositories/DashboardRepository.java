@@ -25,8 +25,10 @@ public class DashboardRepository {
                 List<Product> products = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Product product = snapshot.getValue(Product.class);
+                    product.setId(snapshot.getKey());
                     if (product != null) {
                         products.add(product);
+
                     }
                 }
                 listener.onDataLoaded(products);
