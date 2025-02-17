@@ -1,0 +1,31 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Background Circle - made larger to fill more space -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,12m-11,0a11,11 0,1 1,22 0a11,11 0,1 1,-22 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="0.5"/>
+
+    <!-- Heart - made larger -->
+    <path
+        android:fillColor="#FF4081"
+        android:pathData="M12,6.5c-1,-2.5 -4,-3.5 -6,-2s-1.5,4.5 0.5,7C8.5,14 12,17 12,17s3.5,-3 5.5,-5.5c2,-2.5 2.5,-5.5 0.5,-7S13,4 12,6.5z"/>
+
+    <!-- List lines - repositioned and lengthened -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:pathData="M7,19h10"/>
+
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:pathData="M7,21h10"/>
+</vector>

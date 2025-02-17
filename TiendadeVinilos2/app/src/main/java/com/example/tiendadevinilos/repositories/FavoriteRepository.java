@@ -70,27 +70,30 @@ public class FavoriteRepository {
 
         favRef.get().addOnSuccessListener(snapshot -> {
             List<Product> items = new ArrayList<>();
-            int totalFavorites = (int) snapshot.getChildrenCount();
-            AtomicInteger loadedCount = new AtomicInteger(0);
+            List<String> productIds = new ArrayList<>();
 
-            if (!snapshot.hasChildren()) {
+            for (DataSnapshot favoriteSnapshot : snapshot.getChildren()) {
+                String productId = favoriteSnapshot.getKey();  // Obtener solo el ID
+                productIds.add(productId);
+            }
+
+            if (productIds.isEmpty()) {
                 listener.onLoaded(items);
                 return;
             }
 
-            for (DataSnapshot favoriteSnapshot : snapshot.getChildren()) {
-                String productId = favoriteSnapshot.getKey();
+            AtomicInteger loadedCount = new AtomicInteger(0);
+            for (String productId : productIds) {
                 productsRef.child(productId).get().addOnSuccessListener(productSnapshot -> {
                     Product product = productSnapshot.getValue(Product.class);
                     if (product != null) {
                         items.add(product);
                     }
-
-                    if (loadedCount.incrementAndGet() == totalFavorites) {
+                    if (loadedCount.incrementAndGet() == productIds.size()) {
                         listener.onLoaded(items);
                     }
                 }).addOnFailureListener(e -> {
-                    if (loadedCount.incrementAndGet() == totalFavorites) {
+                    if (loadedCount.incrementAndGet() == productIds.size()) {
                         listener.onLoaded(items);
                     }
                 });

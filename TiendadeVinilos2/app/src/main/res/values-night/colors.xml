@@ -1,0 +1,13 @@
+<resources>
+    <color name="primaryColor">#BB86FC</color>
+    <color name="primaryDarkColor">#3700B3</color>
+    <color name="accentColor">#03DAC5</color>
+    <color name="backgroundColor">#121212</color>
+    <color name="textColor">#FFFFFF</color>
+    <color name="hintColor">#B0B0B0</color>
+    <color name="onPrimary">#000000</color>
+    <color name="onAccent">#000000</color>
+    <color name="editTextBackground">#1E1E1E</color> <!-- Gris oscuro -->
+    <color name="editTextTextColor">#E0E0E0</color>  <!-- Blanco apagado -->
+    <color name="editTextHintColor">#A0A0A0</color>  <!-- Gris medio -->
+</resources>

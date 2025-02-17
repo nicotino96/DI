@@ -8,4 +8,15 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <ToggleButton
+        android:id="@+id/darkModeToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="Light Mode"
+        android:textOn="Dark Mode"
+        android:padding="8dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/toggle_background"
+        android:textColor="@android:color/white"
+        android:layout_gravity="end"/>
 </LinearLayout>

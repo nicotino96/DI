@@ -7,7 +7,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:gravity="center"
-        android:background="@android:color/white">
+        android:background="?attr/android:windowBackground">
 
         <ImageView
             android:id="@+id/productImage"
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
+            android:textColor="?attr/android:textColor"
             android:paddingTop="16dp" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="?attr/android:textColor"
             android:paddingTop="8dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,7 +39,19 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/ic_favorite_border"
-            app:tint="@color/black"
-            app:backgroundTint="@android:color/white" />
+            app:tint="@color/accentColor"
+            app:backgroundTint="@color/primaryColor" />
+
+        <ToggleButton
+            android:id="@+id/darkModeToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="Light Mode"
+            android:textOn="Dark Mode"
+            android:padding="8dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/toggle_background"
+            android:textColor="?attr/android:textColor"
+            android:layout_gravity="end"/>
     </LinearLayout>
 </layout>

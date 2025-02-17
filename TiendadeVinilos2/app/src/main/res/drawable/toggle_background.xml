@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Estado activado (Modo Oscuro) -->
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp" />
+            <solid android:color="#222831" />
+            <stroke android:width="2dp" android:color="#FFD369" />
+        </shape>
+    </item>
+
+    <!-- Estado desactivado (Modo Claro) -->
+    <item android:state_checked="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp" />
+            <solid android:color="#EEEEEE" />
+            <stroke android:width="2dp" android:color="#222831" />
+        </shape>
+    </item>
+</selector>

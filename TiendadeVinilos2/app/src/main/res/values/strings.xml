@@ -2,4 +2,11 @@
     <string name="app_name">Tienda de Vinilos</string>
     <string name="image">Imagen de un vinilo</string>
     <string name="logout">Cerrar sesión</string>
+    <string name="logout_button_description">Logout button. Double tap to sign out.</string>
+    <string name="favorites_button_description">View favorite products. Double tap to open favorites.</string>
+    <string name="opening_product_details">Opening details for %1$s</string>
+    <string name="products_loaded_description">Products loaded successfully</string>
+    <string name="error_loading_products">Error loading products</string>
+    <string name="logging_out_description">Signing out</string>
+    <string name="opening_favorites_description">Opening favorites page</string>
 </resources>
