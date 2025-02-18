@@ -27,9 +27,6 @@ public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
     private DashboardViewModel dashboardViewModel;
     private ProductAdapter productAdapter;
-    private SharedPreferences sharedPreferences;
-    private static final String PREFS_NAME = "AppPrefs";
-    private static final String DARK_MODE_KEY = "dark_mode";
 
     public DashboardFragment() {
         // Constructor vacío requerido
@@ -46,11 +43,6 @@ public class DashboardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Obtener preferencias y aplicar modo oscuro
-        sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, requireActivity().MODE_PRIVATE);
-        boolean isDarkMode = sharedPreferences.getBoolean(DARK_MODE_KEY, false);
-        AppCompatDelegate.setDefaultNightMode(
-                isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
-        );
 
         // Configurar ViewModel
         dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
@@ -70,11 +62,6 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        // Botón de favoritos
-        binding.fabFavorites.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), FavouritesActivity.class);
-            startActivity(intent);
-        });
 
         // Botón de logout
         binding.logoutButton.setOnClickListener(v -> {
@@ -83,18 +70,8 @@ public class DashboardFragment extends Fragment {
             requireActivity().finish();
         });
 
-        // Toggle de Dark Mode
-        binding.darkModeToggle.setChecked(isDarkMode);
-        binding.darkModeToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(DARK_MODE_KEY, isChecked);
-            editor.apply();
 
-            AppCompatDelegate.setDefaultNightMode(isChecked ?
-                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 
-            requireActivity().recreate(); // Recargar actividad para aplicar cambios
-        });
     }
     /**
      * Abre el DetailFragment con el producto seleccionado

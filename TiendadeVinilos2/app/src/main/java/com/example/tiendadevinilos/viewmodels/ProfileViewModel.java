@@ -5,12 +5,18 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.tiendadevinilos.models.Product;
 import com.example.tiendadevinilos.repositories.ProfileRepository;
+
+import java.util.List;
 
 public class ProfileViewModel extends AndroidViewModel {
     private final ProfileRepository profileRepository;
     private final MutableLiveData<Boolean> darkModeLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> passwordChangeResult = new MutableLiveData<>();
+    private final MutableLiveData<List<Product>> favorites = new MutableLiveData<>();
+
 
     public ProfileViewModel(@NonNull Application application) {
         super(application);
@@ -47,5 +53,21 @@ public class ProfileViewModel extends AndroidViewModel {
     public void toggleDarkMode(boolean isEnabled) {
         profileRepository.setDarkMode(isEnabled);
         darkModeLiveData.setValue(isEnabled);
+    }
+    public LiveData<List<Product>> getFavorites() {
+        return favorites;
+    }
+
+    public void loadFavorites() {
+        profileRepository.getFavoriteItems(favorites::setValue);
+    }
+
+    public void toggleFavorite(String productId) {
+        if (favorites.getValue() != null && favorites.getValue().stream().anyMatch(p -> p.getId().equals(productId))) {
+            profileRepository.removeFavorite(productId);
+        } else {
+            profileRepository.addFavorite(productId);
+        }
+        loadFavorites(); // Refrescar la lista después de actualizar
     }
 }

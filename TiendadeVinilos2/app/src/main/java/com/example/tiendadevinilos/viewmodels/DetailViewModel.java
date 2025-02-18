@@ -1,13 +1,10 @@
 package com.example.tiendadevinilos.viewmodels;
 
 import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.tiendadevinilos.repositories.FavoriteRepository;
-import com.example.tiendadevinilos.repositories.UserRepository;
 import com.google.android.gms.tasks.Task;
 
 public class DetailViewModel extends ViewModel {
@@ -23,34 +20,33 @@ public class DetailViewModel extends ViewModel {
     }
 
     public void checkIfFavorite(String productId) {
-        if (productId == null) return;
+        if (productId == null || productId.isEmpty()) {
+            Log.e("DetailViewModel", "Error: productId es nulo o vacío.");
+            return;
+        }
 
-        repository.checkIfFavorite(productId, new FavoriteRepository.OnFavoriteCheckedListener() {
-            @Override
-            public void onChecked(boolean favorite) {
-                isFavorite.postValue(favorite); // Asegura que la UI reciba la actualización
-            }
+        repository.checkIfFavorite(productId, isFav -> {
+            Log.d("DetailViewModel", "Producto " + productId + " es favorito: " + isFav);
+            isFavorite.postValue(isFav); // 🔹 Asegurar actualización en el hilo correcto
         });
     }
 
     public void toggleFavorite(String productId) {
-        if (productId == null) return;
-
-        boolean newState = !Boolean.TRUE.equals(isFavorite.getValue());
-        Log.d("DetailViewModel", "Toggling favorite to: " + newState);
-
-        Task<Void> task;
-        if (newState) {
-            task = repository.addFavorite(productId);
-        } else {
-            task = repository.removeFavorite(productId);
+        if (productId == null || productId.isEmpty()) {
+            Log.e("DetailViewModel", "Error: productId es nulo o vacío.");
+            return;
         }
 
+        boolean newState = !Boolean.TRUE.equals(isFavorite.getValue());
+        Log.d("DetailViewModel", "Toggling favorite for " + productId + " to: " + newState);
+
+        Task<Void> task = newState ? repository.addFavorite(productId) : repository.removeFavorite(productId);
+
         task.addOnSuccessListener(aVoid -> {
-            Log.d("DetailViewModel", "Firebase operation successful");
-            isFavorite.setValue(newState);
+            Log.d("DetailViewModel", "Operación en Firebase exitosa");
+            isFavorite.postValue(newState); // 🔹 Evitar conflictos de hilo
         }).addOnFailureListener(e -> {
-            Log.e("DetailViewModel", "Firebase operation failed", e);
+            Log.e("DetailViewModel", "Error en la operación de Firebase", e);
         });
     }
 }

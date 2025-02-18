@@ -20,7 +20,7 @@ public class FavouritesViewModel extends ViewModel {
         return favoriteItems;
     }
 
-    private void loadFavorites() {
+    public void loadFavorites() {
         repository.getFavoriteItems(favoriteItems::setValue);
     }
 }
