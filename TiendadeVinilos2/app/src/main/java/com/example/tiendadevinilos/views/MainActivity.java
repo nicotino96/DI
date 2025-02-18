@@ -8,10 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import com.example.tiendadevinilos.R;
-import com.example.tiendadevinilos.databinding.ActivityMainBinding;/*
-import com.example.tiendadevinilos.views.fragments.DashboardFragment;
-import com.example.tiendadevinilos.views.fragments.FavouritesFragment;
-import com.example.tiendadevinilos.views.fragments.ProfileFragment;*/
+import com.example.tiendadevinilos.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {

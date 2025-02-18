@@ -1,0 +1,40 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="user"
+            type="com.example.tiendadevinilos.models.User" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/newPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nueva contraseña"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/changePasswordButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cambiar contraseña"/>
+
+        <!-- Switch para modo claro/oscuro -->
+        <ToggleButton
+            android:id="@+id/darkModeToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="☀ Light Mode"
+            android:textOn="🌙 Dark Mode"
+            android:padding="8dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/toggle_background"
+            android:textColor="@color/textColor"
+            android:layout_gravity="end"/>
+    </LinearLayout>
+</layout>
