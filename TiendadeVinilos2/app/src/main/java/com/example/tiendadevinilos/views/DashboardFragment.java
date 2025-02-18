@@ -62,16 +62,6 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-
-        // Botón de logout
-        binding.logoutButton.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), LoginActivity.class);
-            startActivity(intent);
-            requireActivity().finish();
-        });
-
-
-
     }
     /**
      * Abre el DetailFragment con el producto seleccionado
