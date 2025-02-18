@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.tiendadevinilos.R;
 import com.example.tiendadevinilos.adapters.ProductAdapter;
 import com.example.tiendadevinilos.databinding.FragmentDashboardBinding;
+import com.example.tiendadevinilos.models.Product;
 import com.example.tiendadevinilos.viewmodels.DashboardViewModel;
 
 import java.util.ArrayList;
@@ -55,14 +56,7 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
 
         // Configurar RecyclerView
-        productAdapter = new ProductAdapter(new ArrayList<>(), product -> {
-            Intent intent = new Intent(requireContext(), DetailActivity.class);
-            intent.putExtra("id", product.getId());
-            intent.putExtra("title", product.getTitle());
-            intent.putExtra("description", product.getDescription());
-            intent.putExtra("imageUrl", product.getImageUrl());
-            startActivity(intent);
-        });
+        productAdapter = new ProductAdapter(new ArrayList<>(), this::openDetailFragment);
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerView.setAdapter(productAdapter);
@@ -101,6 +95,23 @@ public class DashboardFragment extends Fragment {
 
             requireActivity().recreate(); // Recargar actividad para aplicar cambios
         });
+    }
+    /**
+     * Abre el DetailFragment con el producto seleccionado
+     */
+    private void openDetailFragment(Product product) {
+        DetailFragment detailFragment = new DetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", product.getId());
+        bundle.putString("title", product.getTitle());
+        bundle.putString("description", product.getDescription());
+        bundle.putString("imageUrl", product.getImageUrl());
+        detailFragment.setArguments(bundle);
+
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, detailFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
 

@@ -48,4 +48,5 @@
         app:backgroundTint="?attr/colorPrimary"
         app:tint="?attr/colorOnPrimary"
         android:src="@drawable/ic_favorite_border" />
+
 </LinearLayout>
