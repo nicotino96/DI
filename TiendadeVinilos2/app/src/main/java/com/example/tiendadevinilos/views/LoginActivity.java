@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getUserLiveData().observe(this, user -> {
             if (user != null) {
                 Toast.makeText(this, "Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, DashboardActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
